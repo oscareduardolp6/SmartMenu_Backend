@@ -12,7 +12,8 @@ class Product:
                 variation   = '', 
                 expiration  = datetime.datetime.now(), 
                 price       = 0,
-                required    = False
+                required    = False, 
+                active      = True
               ): 
     self.__id       = id 
     self.name       = name
@@ -21,7 +22,7 @@ class Product:
     self.expiration = expiration
     self.__price    = price
     self.__required = required
-    self.__active   = True
+    self.__active   = active
   
   def getID(self): 
     return self.__id
@@ -45,9 +46,9 @@ class Product:
     self.__active = active if isinstance(active, bool) else False 
 
   def save(self):
-    conn = self.connection_manager.get_connection()
-    cursor = conn.cursor()
-    query = """
+    conn    = self.connection_manager.get_connection()
+    cursor  = conn.cursor()
+    query   = """
     INSERT INTO producto (NOMBRE, MARCA, VARIANTE, CADUCIDAD, PRECIO, REQUERIDO) 
                   VALUES (?, ?, ?, ?, ?, ?)
     """
@@ -61,6 +62,4 @@ class Product:
       )
     )
     conn.commit()
-    conn.close()
-    
-    
+    conn.close() 
