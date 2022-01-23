@@ -1,7 +1,9 @@
 import datetime
-import testProduct as conn_mngr 
+from ConnectionManager import ConnectionManager
 
 class Product: 
+  connection_manager = ConnectionManager()
+
   def __init__( 
                 self, 
                 id, 
@@ -43,7 +45,7 @@ class Product:
     self.__active = active if isinstance(active, bool) else False 
 
   def save(self):
-    conn = conn_mngr.get_connection()
+    conn = self.connection_manager.get_connection()
     cursor = conn.cursor()
     query = """
     INSERT INTO producto (NOMBRE, MARCA, VARIANTE, CADUCIDAD, PRECIO, REQUERIDO) 
