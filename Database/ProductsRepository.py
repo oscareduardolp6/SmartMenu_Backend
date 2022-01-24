@@ -46,7 +46,6 @@ class ProductsRepository:
     )
     return product
 
-
   def getAllProductsOrderBy(self, field: ProductFields, asc = True) -> list: 
     column    = field.value
     products  = []

@@ -63,3 +63,30 @@ class Product:
     )
     conn.commit()
     conn.close() 
+  
+  def update(self): 
+    conn    = self.connection_manager.get_connection()
+    cursor  = conn.cursor()
+    query   = """
+    UPDATE producto SET 
+      NOMBRE    = ?
+      MARCA     = ?
+      VARIANTE  = ?
+      CADUCIDAD = ?
+      PRECIO    = ?
+      REQUERIDO = ?
+      ACTIVO    = ?
+    WHERE ID = ?
+    """
+    cursor.execute(query, (
+      self.name, 
+      self.brand, 
+      self.variation, 
+      self.expiration, 
+      self.__price, 
+      self.__required, 
+      self.__active, 
+      self.__id
+    ))
+    conn.commit()
+    conn.close() 
