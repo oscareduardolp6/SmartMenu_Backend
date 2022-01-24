@@ -42,7 +42,7 @@ class Product:
   def getActive(self): 
     return self.__active
 
-  def setActive(self, active): 
+  def setActive(self, active: bool): 
     self.__active = active if isinstance(active, bool) else False 
 
   def save(self):
