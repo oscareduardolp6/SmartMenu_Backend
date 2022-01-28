@@ -33,7 +33,7 @@ class ProductsRepository:
   def getProductByName(self, name): 
     products = self.getAllProducts()
     product = next(
-      (x for x in products if x.name == name), 
+      (x for x in products if x.name.upper() == name.upper()), 
       None
     )
     return product

@@ -23,9 +23,10 @@ productos = controller.getAllProducts()
 for product in productos: 
   print(product.name)
 
+print('--------------------------')
 producto = controller.getProductByName('Refresco')
 
-changes = { price: 33 }
+changes = { 'price' : 33 }
 
 result = controller.updateProduct(producto.getID(), changes)
 
@@ -34,6 +35,6 @@ result2 = controller.removeProduct(17)
 print('Eliminacion ' + result2) 
 
 productos = controller.getAllProducts()
-
+print('-------------------------------')
 for product in productos: 
   print(product.name)

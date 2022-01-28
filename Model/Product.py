@@ -10,7 +10,7 @@ class Product:
                 name, 
                 brand       = 'libre', 
                 variation   = '', 
-                expiration  = datetime.datetime.now(), 
+                expiration:datetime  = datetime.datetime.now(), 
                 price       = 0,
                 required    = False, 
                 active      = True
@@ -67,14 +67,16 @@ class Product:
   def update(self): 
     conn    = self.connection_manager.get_connection()
     cursor  = conn.cursor()
+    active  = '1' if self.__active else '0' 
+    require = '1' if self.__required else '0'
     query   = """
     UPDATE producto SET 
-      NOMBRE    = ?
-      MARCA     = ?
-      VARIANTE  = ?
-      CADUCIDAD = ?
-      PRECIO    = ?
-      REQUERIDO = ?
+      NOMBRE    = ?,
+      MARCA     = ?,
+      VARIANTE  = ?,
+      CADUCIDAD = ?,
+      PRECIO    = ?,
+      REQUERIDO = ?,
       ACTIVO    = ?
     WHERE ID = ?
     """
@@ -83,10 +85,10 @@ class Product:
       self.brand, 
       self.variation, 
       self.expiration, 
-      self.__price, 
-      self.__required, 
-      self.__active, 
-      self.__id
+      str(self.__price), 
+      str(require),
+      str(active), 
+      str(self.__id) 
     ))
     conn.commit()
     conn.close() 
