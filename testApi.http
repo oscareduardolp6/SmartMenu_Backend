@@ -1,4 +1,19 @@
 http://127.0.0.1:5000/getProducts
 
 ### 
-http://127.0.0.1:5000/getProduct?productName=Tortillas
+http://127.0.0.1:5000/getProductByName?productName=Tortillas
+
+### 
+http://127.0.0.1:5000/getProductByID?id=25
+
+
+### 
+POST http://127.0.0.1:5000/addProduct
+Content-Type: application/json
+
+{
+  "name": "Lasaña", 
+  "brand": "Casera", 
+  "variation": "Boloñesa", 
+  "price": 0
+}

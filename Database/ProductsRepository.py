@@ -22,7 +22,7 @@ class ProductsRepository:
     self.connection_manager.close_connection()
     return products  
   
-  def getProductByID(self, id): 
+  def getProductByID(self, id:int ): 
     products = self.getAllProducts()
     product = next(
       (x for x in products if x.getID() == id), 
