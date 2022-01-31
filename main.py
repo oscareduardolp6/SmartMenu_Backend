@@ -1,24 +1,29 @@
 from datetime import datetime
-from typing_extensions import Required
-from flask import Flask, jsonify, request, send_file
+from flask import Flask , request 
+from flask_cors import CORS, cross_origin 
 import sys  as sys
 import json
 
 sys.path.append('D:/Software/dev/Projects/SmartMenu/Backend/Model/')
 sys.path.append('D:/Software/dev/Projects/SmartMenu/Backend/Database/')
+sys.path.append('D:/Software/dev/Projects/SmartMenu/Backend/Routes/')
 
 from ProductEncoder     import ProductEncoder
 from ProductsRepository import ProductsRepository 
+from Routes.ProductRoutes import parseProduct
 from Product import Product
 
-
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 productsRepo = ProductsRepository()
+NoneType = type(None)
 
 @app.route('/getProducts')
 def getProducts():
   myResponse  = productsRepo.getAllProducts()
-  myJson      = json.dumps(myResponse, cls=ProductEncoder)
+  myJson      = json.dumps(myResponse, cls = ProductEncoder)
   return myJson
 
 @app.route('/getProductByName')
@@ -32,53 +37,20 @@ def getProductByName():
 
 @app.route('/getProductByID')
 def getProductByID(): 
-  productID = request.args.get('id')
-  productID = int(productID)
+  productID = int(request.args.get('id')) 
   if productID : 
     product = productsRepo.getProductByID(productID)
-    myJson  = json.dumps(product, cls= ProductEncoder)
+    myJson  = json.dumps(product, cls = ProductEncoder)
     return myJson
   pass 
 
-@app.route('/addProduct', methods = ['POST'])
+@app.route('/addProduct', methods = ['POST']) 
 def addProduct(): 
-  # name        = request.args.get('name') 
-  # brand       = request.args.get('brand') or 'Libre'
-  # variation   = request.args.get('var') or ''
-  # expiration  = request.args.get('exp') or datetime.now()
-  # price       = request.args.get('price') or 0
-  # required    = bool(request.args.get('req'))
-  # active      = True 
-  request_json  = request.get_json()
-  # name          = request_json['name']
-  name          = request_json.get('name') 
-  brand         = request_json['brand'] or 'Libre'
-  variation     = request_json['variation'] or ''
-  #expiration    = request_json['expiration'] or datetime.now()
-  expiration    = request_json.get('expiration') or datetime.now()
-  price         = request_json['price'] or 0 
-  #required      = bool(request_json['req']) 
-  required      = bool(request_json.get('required'))
-  active        = True
-
-  
-  if not name : 
-    return 'Error, no se puede registrar un producto sin nombre'
-  newProduct = Product(
-    1, 
-    name, 
-    brand,
-    variation, 
-    expiration, 
-    price, 
-    required, 
-    active
-  )
+  request_json = request.get_json(force = True)
+  newProduct = parseProduct(request_json) 
   newProduct.save()
   return 'OK'
 
-  
-  
 # app.run(debug = True, port  = 8000)
 if __name__ == "__main__":
   host  = '127.0.0.1'

@@ -12,8 +12,8 @@ POST http://127.0.0.1:5000/addProduct
 Content-Type: application/json
 
 {
-  "name": "Lasaña", 
-  "brand": "Casera", 
+  "name": "Spaguetti", 
+  "brand": "Casero", 
   "variation": "Boloñesa", 
   "price": 0
 }
